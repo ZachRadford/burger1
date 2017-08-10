@@ -37,7 +37,7 @@ var orm = {
     });
    },
   create: function(vals, cb) {
-    var queryString = "INSERT INTO burgers (burger_name) VALUES (?);", [vals.length]
+    var queryString = "INSERT INTO burgers (burger_name) VALUES (?);"
     console.log(queryString);
 
     connection.query(queryString, vals, function(err, result) {
@@ -49,10 +49,10 @@ var orm = {
   },
   // An example of objColVals would be {name: panther, sleepy: true}
   update: function(objColVals, condition, cb) {
-    var queryString = "UPDATE burgers SET burger_name = ? WHERE id = ?;", [objColVals, condition]
+    var queryString = "UPDATE burgers SET burger_name = ? WHERE id = ?;"
 
     console.log(queryString);
-    connection.query(queryString, function(err, result) {
+    connection.query(queryString, [objColVals, condition], function(err, result) {
       if (err) {
         throw err;
       }
@@ -61,9 +61,11 @@ var orm = {
     });
   },
   delete: function(condition, cb) {
-    var queryString = "DELETE FROM burgers WHERE id = ?;", [condition]
+    var queryString = "DELETE FROM burgers WHERE "
+    queryString += condition;
+    
 
-    connection.query(queryString, function(err, result) {
+    connection.query(queryString, condition, function(err, result) {
       if (err) {
         throw err;
       }

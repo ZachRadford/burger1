@@ -35,9 +35,10 @@ router.put("/:id", function(req, res) {
 });
 
 router.delete("/:id", function(req, res) {
+  console.log(req.params.id)
   var condition = "id = " + req.params.id;
 
-  burger.delete(condition, function() {
+  burgers.delete(condition, function() {
     res.redirect("/");
   });
 });
